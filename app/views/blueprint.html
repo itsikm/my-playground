@@ -1,9 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="bpContainer">
+    <div data-ng-repeat="(parent, childs) in map" class="box" blueprint:coordinate="parent">
+        <div class="head">{{ indexNodes[parent].name }}</div>
+        <div class="holder">
+            <div data-ng-repeat="(child, grandChilds) in childs" class="box" blueprint:coordinate="child">
+                <div class="head">{{ indexNodes[child].name }}</div>
+                <div class="holder">
+                    <div data-ng-repeat="gchild in grandChilds" class="app" blueprint:coordinate="gchild">
+                        <p>{{ indexNodes[gchild].name }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div blueprint:arrows="coordinates"></div>
+</div>

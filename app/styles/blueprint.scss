@@ -1,0 +1,77 @@
+.bpContainer {
+  width: 800px;
+  height: 800px;
+  display: block;
+  margin:150px;
+  min-height: 500px;
+  padding: 30px;
+
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .box {
+    position: relative;
+    display: inline-block;
+    min-width: 220px;
+    min-height: 130px;
+    border-width: 1px;
+    border-color: #428bca;
+    border-style: solid;
+    background-color: white;
+    vertical-align: top;
+    padding: 5px;
+    border-radius: 3px;
+    margin: 0 100px 20px 0;
+
+    .box {
+      border-color: yellowgreen;
+      margin-bottom: 0px;
+
+      .head {
+        background-color: yellowgreen;
+      }
+    }
+
+    .head {
+      display: block;
+      background-color: #428bca;
+      color: #ffffff;
+      padding: 5px 10px;
+      border-radius: 3px;
+    }
+
+    .holder {
+      display: block;
+      background-color: white;
+      padding: 20px;
+    }
+
+  }
+
+  .box:nth-child(2) {
+    margin-top: 200px;
+  }
+
+  .box:last-child {
+    margin: 0px;
+  }
+
+  .app {
+    position: relative;
+    display: inline-block;
+    width: 150px;
+    text-align: center;
+    background-color: #9999FF;
+    color: white;
+    border-radius: 3px;
+    padding: 15px 5px;
+
+    p {
+      margin: 0px;
+    }
+
+  }
+}

@@ -1,0 +1,290 @@
+{
+    "nodes": [
+        {
+            "id": 7,
+            "name": "webserver_host",
+            "type": [
+                "cloudify.types.host"
+            ],
+            "properties": {
+                "nova_config": {
+                    "instance": {
+                        "key_name": "cosmo_hk",
+                        "image": 67074,
+                        "name": "demo-webserver-host",
+                        "flavor": 101,
+                        "userdata": "#!/bin/bash -ex\ngrep -q novalocal /etc/hosts || echo \"15.185.152.116 chef.novalocal\" >> /etc/hosts\n"
+                    },
+                    "region": "az-2.region-a.geo-1"
+                },
+                "install_agent": "true",
+                "worker_config": {
+                    "user": "ubuntu",
+                    "key": "~/.ssh/id_rsa",
+                    "port": "22"
+                },
+                "cloudify_runtime": {}
+            },
+            "policies": [
+                {
+                    "rules": [
+                        {
+                            "type": "state_equals",
+                            "properties": {
+                                "state": "running",
+                                "service": "openstack machine status"
+                            }
+                        }
+                    ],
+                    "name": "start_detection_policy"
+                }
+            ],
+            "general": null
+        },
+        {
+            "id": 2,
+            "name": "postgres_host",
+            "type": [
+                "cloudify.types.host"
+            ],
+            "properties": {
+                "nova_config": {
+                    "instance": {
+                        "key_name": "cosmo_hk",
+                        "image": 67074,
+                        "name": "demo-postgres-host",
+                        "flavor": 101,
+                        "userdata": "#!/bin/bash -ex\ngrep -q novalocal /etc/hosts || echo \"15.185.152.116 chef.novalocal\" >> /etc/hosts\n"
+                    },
+                    "region": "az-2.region-a.geo-1"
+                },
+                "install_agent": "true",
+                "worker_config": {
+                    "user": "ubuntu",
+                    "key": "~/.ssh/id_rsa",
+                    "port": "22"
+                },
+                "cloudify_runtime": {}
+            },
+            "policies": [
+                {
+                    "rules": [
+                        {
+                            "type": "state_equals",
+                            "properties": {
+                                "state": "running",
+                                "service": "openstack machine status"
+                            }
+                        }
+                    ],
+                    "name": "start_detection_policy"
+                }
+            ],
+            "general": null
+        },
+        {
+            "id": 3,
+            "name": "postgres_server",
+            "type": [
+                "cloudify.types.middleware_server"
+            ],
+            "properties": {
+                "policy_service": "database status",
+                "chef_environment": "_default",
+                "chef_install_runlist": "recipe[cosmo-mezzanine-demo::install_db_postgresql]",
+                "chef_server_url": "https://15.185.152.116:443",
+                "chef_validation": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpQIBAAKCAQEAvNywAYEO0/TCLP0LE6bYalWR3lcDEQhqni0r7T9v4c+g17aj\ns3kPrhewFvj6dfS/lYskxeryS4vATqDkkZIJcXRdeEUk7sjwUkNsiuciErK3bhZB\npOqvujgde7zrhyH1fkCHEnNyaHhHr091YlHmRfSLY/Z6lyW+HVLmc0WZVgPr0+T8\n7zWivpBrimgGdaAmJXGdj7SRc/HLN5PAeg9Ew3mljUL7eMhVw0tn9jyFjiAvKIJX\nGoPdLpvWfolxxb5iqV2dqqmAKCmS4ks8qnGBrbWml+r7oSvAXjPDphUpEzk5+LFU\nZjVjT4+KsF4mBKEeNP5JF7iafjdxr1HqjCi5OwIDAQABAoIBAQC2jogfXBXuMhgE\nDrFHVK660m4Gwor3SvBsZ3OfiANo/h8WhLfmQu4yNTmEazUHEgai0fZAzeNZvQOt\nvX5TbBturLGxEP0rR9ZtXjksZ1EbS99dLWxUsnocgiOVuT7dx6iaWlt2LVv4udNp\nFWB9Ind5RXH7tYQ4WEZV6A1UfYFDjygUaMsz9Fyt6rfqL9g92weAj/KtjTeGHLCg\nys1ThW7m/Wcjh6GEmIL9a3EBWor69Pw7BM+9hErcFyGSQn+urM81Sk/o4wV/lqci\n8K0agaZuTWZqQZPRv6Ho5eAgY1kOSSbV+xSZXNxNlvhpGROl1QwuLkxurVETWM8n\npWuRpJFxAoGBAPpq0MHTcx9BI95hxKLOkyNGh/PjApTqF42Ds7U7PviEu8O/82p4\nRsjXQ95LotJSoPoG+wa0ezUpq3rDDeQ+EUEp55xwQshtg05UcpnUl65o0Zevo1TM\nZb7qfFLwY2Tc4ZG1dixQytMED2xdKbHHGq2FxDUWBtRpgNSLw9lamoOZAoGBAMES\nkEIOXYURok6O8Ja8xEH7e0ZlDQlMiTOle6mSDq/O4ff1q5YToerYfCNawg+z+HGp\npRwvqBSZJHc48D+C/qT7okpb9XfbYb93SRZ2eDuaQX9w/6SWRqO1Vj9e7hDn5lDe\nf6/1wqtP2w0pg89uqo40LmzXo8CKuvGg5D0j7afzAoGBAJCPYy3RbE7potQ46nP1\n/rjJeahQL2hZ7vjRw8dmiUacEWzCfbnD71D3/ATy8u6ppqZPq1BGli2tfYGj4nwV\nXI6aq0sC/3qGxdtNIs8tC9cySXRgf1BvonjhEp4qiaZrYIhmEe8pQL0qReEPswce\n4oazhv4CVjT/JtEMUiZCiJpZAoGBALWA6BDRRGWWgEjt44sxhiapbehtkuXNB6Z/\nyVNONXRdPt1GHLqHVk5amcj6xzjP7Z2c59UpkA9dMITMCD8MvKsIzDavYIH+wVOn\nphPx53HQwAY4inuFsn6wOJZ2fcNy3nfj05HtrcYy2jDzeDCHTttEfuhfiFe3k6sX\nn7lCj2a1AoGAFdJjjJOA0fvAqnqaxmEejejSm1tkqkeN7wgiASk1oVQWDGRU7wtV\nc94RY8D6s3hvPps0sE7cEP7SPOViQA4v0cBFj2NJx2vpHgXbRTKlbPMFdxxgaCA8\nGiH6Uo1NeK0xZeh9YCemqC80mEXv2M0gS4DeOebBfxxSUIucj5IfpVo=\n-----END RSA PRIVATE KEY-----\n",
+                "chef_validator_name": "chef-validator",
+                "chef_version": "11.4.4-2",
+                "cloudify_runtime": {}
+            },
+            "policies": [
+                {
+                    "rules": [
+                        {
+                            "type": "state_equals",
+                            "properties": {
+                                "state": "running",
+                                "service": "database status"
+                            }
+                        }
+                    ],
+                    "name": "start_detection_policy"
+                }
+            ],
+            "general": null
+        },
+        {
+            "id": 5,
+            "name": "nginx",
+            "type": [
+                "cloudify.types.middleware_server"
+            ],
+            "properties": {
+                "policy_service": "webserver status",
+                "chef_environment": "_default",
+                "chef_install_runlist": "recipe[cosmo-mezzanine-demo::install_web_nginx]",
+                "chef_server_url": "https://15.185.152.116:443",
+                "chef_validation": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpQIBAAKCAQEAvNywAYEO0/TCLP0LE6bYalWR3lcDEQhqni0r7T9v4c+g17aj\ns3kPrhewFvj6dfS/lYskxeryS4vATqDkkZIJcXRdeEUk7sjwUkNsiuciErK3bhZB\npOqvujgde7zrhyH1fkCHEnNyaHhHr091YlHmRfSLY/Z6lyW+HVLmc0WZVgPr0+T8\n7zWivpBrimgGdaAmJXGdj7SRc/HLN5PAeg9Ew3mljUL7eMhVw0tn9jyFjiAvKIJX\nGoPdLpvWfolxxb5iqV2dqqmAKCmS4ks8qnGBrbWml+r7oSvAXjPDphUpEzk5+LFU\nZjVjT4+KsF4mBKEeNP5JF7iafjdxr1HqjCi5OwIDAQABAoIBAQC2jogfXBXuMhgE\nDrFHVK660m4Gwor3SvBsZ3OfiANo/h8WhLfmQu4yNTmEazUHEgai0fZAzeNZvQOt\nvX5TbBturLGxEP0rR9ZtXjksZ1EbS99dLWxUsnocgiOVuT7dx6iaWlt2LVv4udNp\nFWB9Ind5RXH7tYQ4WEZV6A1UfYFDjygUaMsz9Fyt6rfqL9g92weAj/KtjTeGHLCg\nys1ThW7m/Wcjh6GEmIL9a3EBWor69Pw7BM+9hErcFyGSQn+urM81Sk/o4wV/lqci\n8K0agaZuTWZqQZPRv6Ho5eAgY1kOSSbV+xSZXNxNlvhpGROl1QwuLkxurVETWM8n\npWuRpJFxAoGBAPpq0MHTcx9BI95hxKLOkyNGh/PjApTqF42Ds7U7PviEu8O/82p4\nRsjXQ95LotJSoPoG+wa0ezUpq3rDDeQ+EUEp55xwQshtg05UcpnUl65o0Zevo1TM\nZb7qfFLwY2Tc4ZG1dixQytMED2xdKbHHGq2FxDUWBtRpgNSLw9lamoOZAoGBAMES\nkEIOXYURok6O8Ja8xEH7e0ZlDQlMiTOle6mSDq/O4ff1q5YToerYfCNawg+z+HGp\npRwvqBSZJHc48D+C/qT7okpb9XfbYb93SRZ2eDuaQX9w/6SWRqO1Vj9e7hDn5lDe\nf6/1wqtP2w0pg89uqo40LmzXo8CKuvGg5D0j7afzAoGBAJCPYy3RbE7potQ46nP1\n/rjJeahQL2hZ7vjRw8dmiUacEWzCfbnD71D3/ATy8u6ppqZPq1BGli2tfYGj4nwV\nXI6aq0sC/3qGxdtNIs8tC9cySXRgf1BvonjhEp4qiaZrYIhmEe8pQL0qReEPswce\n4oazhv4CVjT/JtEMUiZCiJpZAoGBALWA6BDRRGWWgEjt44sxhiapbehtkuXNB6Z/\nyVNONXRdPt1GHLqHVk5amcj6xzjP7Z2c59UpkA9dMITMCD8MvKsIzDavYIH+wVOn\nphPx53HQwAY4inuFsn6wOJZ2fcNy3nfj05HtrcYy2jDzeDCHTttEfuhfiFe3k6sX\nn7lCj2a1AoGAFdJjjJOA0fvAqnqaxmEejejSm1tkqkeN7wgiASk1oVQWDGRU7wtV\nc94RY8D6s3hvPps0sE7cEP7SPOViQA4v0cBFj2NJx2vpHgXbRTKlbPMFdxxgaCA8\nGiH6Uo1NeK0xZeh9YCemqC80mEXv2M0gS4DeOebBfxxSUIucj5IfpVo=\n-----END RSA PRIVATE KEY-----\n",
+                "chef_validator_name": "chef-validator",
+                "chef_version": "11.4.4-2",
+                "cloudify_runtime": {}
+            },
+            "policies": [
+                {
+                    "rules": [
+                        {
+                            "type": "state_equals",
+                            "properties": {
+                                "state": "running",
+                                "service": "webserver status"
+                            }
+                        }
+                    ],
+                    "name": "start_detection_policy"
+                }
+            ],
+            "general": null
+        },
+        {
+            "id": 6,
+            "name": "unicorn",
+            "type": [
+                "cloudify.types.middleware_server"
+            ],
+            "properties": {
+                "policy_service": "webserver2 status",
+                "chef_environment": "_default",
+                "chef_install_runlist": "recipe[cosmo-mezzanine-demo::install_web_gunicorn]",
+                "chef_server_url": "https://15.185.152.116:443",
+                "chef_validation": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpQIBAAKCAQEAvNywAYEO0/TCLP0LE6bYalWR3lcDEQhqni0r7T9v4c+g17aj\ns3kPrhewFvj6dfS/lYskxeryS4vATqDkkZIJcXRdeEUk7sjwUkNsiuciErK3bhZB\npOqvujgde7zrhyH1fkCHEnNyaHhHr091YlHmRfSLY/Z6lyW+HVLmc0WZVgPr0+T8\n7zWivpBrimgGdaAmJXGdj7SRc/HLN5PAeg9Ew3mljUL7eMhVw0tn9jyFjiAvKIJX\nGoPdLpvWfolxxb5iqV2dqqmAKCmS4ks8qnGBrbWml+r7oSvAXjPDphUpEzk5+LFU\nZjVjT4+KsF4mBKEeNP5JF7iafjdxr1HqjCi5OwIDAQABAoIBAQC2jogfXBXuMhgE\nDrFHVK660m4Gwor3SvBsZ3OfiANo/h8WhLfmQu4yNTmEazUHEgai0fZAzeNZvQOt\nvX5TbBturLGxEP0rR9ZtXjksZ1EbS99dLWxUsnocgiOVuT7dx6iaWlt2LVv4udNp\nFWB9Ind5RXH7tYQ4WEZV6A1UfYFDjygUaMsz9Fyt6rfqL9g92weAj/KtjTeGHLCg\nys1ThW7m/Wcjh6GEmIL9a3EBWor69Pw7BM+9hErcFyGSQn+urM81Sk/o4wV/lqci\n8K0agaZuTWZqQZPRv6Ho5eAgY1kOSSbV+xSZXNxNlvhpGROl1QwuLkxurVETWM8n\npWuRpJFxAoGBAPpq0MHTcx9BI95hxKLOkyNGh/PjApTqF42Ds7U7PviEu8O/82p4\nRsjXQ95LotJSoPoG+wa0ezUpq3rDDeQ+EUEp55xwQshtg05UcpnUl65o0Zevo1TM\nZb7qfFLwY2Tc4ZG1dixQytMED2xdKbHHGq2FxDUWBtRpgNSLw9lamoOZAoGBAMES\nkEIOXYURok6O8Ja8xEH7e0ZlDQlMiTOle6mSDq/O4ff1q5YToerYfCNawg+z+HGp\npRwvqBSZJHc48D+C/qT7okpb9XfbYb93SRZ2eDuaQX9w/6SWRqO1Vj9e7hDn5lDe\nf6/1wqtP2w0pg89uqo40LmzXo8CKuvGg5D0j7afzAoGBAJCPYy3RbE7potQ46nP1\n/rjJeahQL2hZ7vjRw8dmiUacEWzCfbnD71D3/ATy8u6ppqZPq1BGli2tfYGj4nwV\nXI6aq0sC/3qGxdtNIs8tC9cySXRgf1BvonjhEp4qiaZrYIhmEe8pQL0qReEPswce\n4oazhv4CVjT/JtEMUiZCiJpZAoGBALWA6BDRRGWWgEjt44sxhiapbehtkuXNB6Z/\nyVNONXRdPt1GHLqHVk5amcj6xzjP7Z2c59UpkA9dMITMCD8MvKsIzDavYIH+wVOn\nphPx53HQwAY4inuFsn6wOJZ2fcNy3nfj05HtrcYy2jDzeDCHTttEfuhfiFe3k6sX\nn7lCj2a1AoGAFdJjjJOA0fvAqnqaxmEejejSm1tkqkeN7wgiASk1oVQWDGRU7wtV\nc94RY8D6s3hvPps0sE7cEP7SPOViQA4v0cBFj2NJx2vpHgXbRTKlbPMFdxxgaCA8\nGiH6Uo1NeK0xZeh9YCemqC80mEXv2M0gS4DeOebBfxxSUIucj5IfpVo=\n-----END RSA PRIVATE KEY-----\n",
+                "chef_validator_name": "chef-validator",
+                "chef_version": "11.4.4-2",
+                "cloudify_runtime": {}
+            },
+            "policies": [
+                {
+                    "rules": [
+                        {
+                            "type": "state_equals",
+                            "properties": {
+                                "state": "running",
+                                "service": "webserver2 status"
+                            }
+                        }
+                    ],
+                    "name": "start_detection_policy"
+                }
+            ],
+            "general": null
+        },
+        {
+            "id": 1,
+            "name": "mezzanine_db",
+            "type": [
+                "cloudify.types.app_module"
+            ],
+            "properties": {
+                "policy_service": "database schema status",
+                "chef_environment": "_default",
+                "chef_server_url": "https://15.185.152.116:443",
+                "chef_validation": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpQIBAAKCAQEAvNywAYEO0/TCLP0LE6bYalWR3lcDEQhqni0r7T9v4c+g17aj\ns3kPrhewFvj6dfS/lYskxeryS4vATqDkkZIJcXRdeEUk7sjwUkNsiuciErK3bhZB\npOqvujgde7zrhyH1fkCHEnNyaHhHr091YlHmRfSLY/Z6lyW+HVLmc0WZVgPr0+T8\n7zWivpBrimgGdaAmJXGdj7SRc/HLN5PAeg9Ew3mljUL7eMhVw0tn9jyFjiAvKIJX\nGoPdLpvWfolxxb5iqV2dqqmAKCmS4ks8qnGBrbWml+r7oSvAXjPDphUpEzk5+LFU\nZjVjT4+KsF4mBKEeNP5JF7iafjdxr1HqjCi5OwIDAQABAoIBAQC2jogfXBXuMhgE\nDrFHVK660m4Gwor3SvBsZ3OfiANo/h8WhLfmQu4yNTmEazUHEgai0fZAzeNZvQOt\nvX5TbBturLGxEP0rR9ZtXjksZ1EbS99dLWxUsnocgiOVuT7dx6iaWlt2LVv4udNp\nFWB9Ind5RXH7tYQ4WEZV6A1UfYFDjygUaMsz9Fyt6rfqL9g92weAj/KtjTeGHLCg\nys1ThW7m/Wcjh6GEmIL9a3EBWor69Pw7BM+9hErcFyGSQn+urM81Sk/o4wV/lqci\n8K0agaZuTWZqQZPRv6Ho5eAgY1kOSSbV+xSZXNxNlvhpGROl1QwuLkxurVETWM8n\npWuRpJFxAoGBAPpq0MHTcx9BI95hxKLOkyNGh/PjApTqF42Ds7U7PviEu8O/82p4\nRsjXQ95LotJSoPoG+wa0ezUpq3rDDeQ+EUEp55xwQshtg05UcpnUl65o0Zevo1TM\nZb7qfFLwY2Tc4ZG1dixQytMED2xdKbHHGq2FxDUWBtRpgNSLw9lamoOZAoGBAMES\nkEIOXYURok6O8Ja8xEH7e0ZlDQlMiTOle6mSDq/O4ff1q5YToerYfCNawg+z+HGp\npRwvqBSZJHc48D+C/qT7okpb9XfbYb93SRZ2eDuaQX9w/6SWRqO1Vj9e7hDn5lDe\nf6/1wqtP2w0pg89uqo40LmzXo8CKuvGg5D0j7afzAoGBAJCPYy3RbE7potQ46nP1\n/rjJeahQL2hZ7vjRw8dmiUacEWzCfbnD71D3/ATy8u6ppqZPq1BGli2tfYGj4nwV\nXI6aq0sC/3qGxdtNIs8tC9cySXRgf1BvonjhEp4qiaZrYIhmEe8pQL0qReEPswce\n4oazhv4CVjT/JtEMUiZCiJpZAoGBALWA6BDRRGWWgEjt44sxhiapbehtkuXNB6Z/\nyVNONXRdPt1GHLqHVk5amcj6xzjP7Z2c59UpkA9dMITMCD8MvKsIzDavYIH+wVOn\nphPx53HQwAY4inuFsn6wOJZ2fcNy3nfj05HtrcYy2jDzeDCHTttEfuhfiFe3k6sX\nn7lCj2a1AoGAFdJjjJOA0fvAqnqaxmEejejSm1tkqkeN7wgiASk1oVQWDGRU7wtV\nc94RY8D6s3hvPps0sE7cEP7SPOViQA4v0cBFj2NJx2vpHgXbRTKlbPMFdxxgaCA8\nGiH6Uo1NeK0xZeh9YCemqC80mEXv2M0gS4DeOebBfxxSUIucj5IfpVo=\n-----END RSA PRIVATE KEY-----\n",
+                "chef_deploy_runlist": "recipe[cosmo-mezzanine-demo::install_db_postgresql_db]",
+                "chef_validator_name": "chef-validator",
+                "chef_version": "11.4.4-2",
+                "cloudify_runtime": {}
+            },
+            "policies": [
+                {
+                    "rules": [
+                        {
+                            "type": "state_equals",
+                            "properties": {
+                                "state": "running",
+                                "service": "database schema status"
+                            }
+                        }
+                    ],
+                    "name": "start_detection_policy"
+                }
+            ],
+            "general": null
+        },
+        {
+            "id": 4,
+            "name": "mezzanine_app",
+            "type": [
+                "cloudify.types.app_module"
+            ],
+            "properties": {
+                "chef_deploy_runlist": "recipe[cosmo-mezzanine-demo::install_web_mezzanine],recipe[cosmo-mezzanine-demo::install_web_mezzanine_app]",
+                "chef_start_runlist": "recipe[cosmo-mezzanine-demo::start_web_mezzanine_app]",
+                "policy_service": "mezzanine app status",
+                "chef_environment": "_default",
+                "chef_server_url": "https://15.185.152.116:443",
+                "chef_validation": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpQIBAAKCAQEAvNywAYEO0/TCLP0LE6bYalWR3lcDEQhqni0r7T9v4c+g17aj\ns3kPrhewFvj6dfS/lYskxeryS4vATqDkkZIJcXRdeEUk7sjwUkNsiuciErK3bhZB\npOqvujgde7zrhyH1fkCHEnNyaHhHr091YlHmRfSLY/Z6lyW+HVLmc0WZVgPr0+T8\n7zWivpBrimgGdaAmJXGdj7SRc/HLN5PAeg9Ew3mljUL7eMhVw0tn9jyFjiAvKIJX\nGoPdLpvWfolxxb5iqV2dqqmAKCmS4ks8qnGBrbWml+r7oSvAXjPDphUpEzk5+LFU\nZjVjT4+KsF4mBKEeNP5JF7iafjdxr1HqjCi5OwIDAQABAoIBAQC2jogfXBXuMhgE\nDrFHVK660m4Gwor3SvBsZ3OfiANo/h8WhLfmQu4yNTmEazUHEgai0fZAzeNZvQOt\nvX5TbBturLGxEP0rR9ZtXjksZ1EbS99dLWxUsnocgiOVuT7dx6iaWlt2LVv4udNp\nFWB9Ind5RXH7tYQ4WEZV6A1UfYFDjygUaMsz9Fyt6rfqL9g92weAj/KtjTeGHLCg\nys1ThW7m/Wcjh6GEmIL9a3EBWor69Pw7BM+9hErcFyGSQn+urM81Sk/o4wV/lqci\n8K0agaZuTWZqQZPRv6Ho5eAgY1kOSSbV+xSZXNxNlvhpGROl1QwuLkxurVETWM8n\npWuRpJFxAoGBAPpq0MHTcx9BI95hxKLOkyNGh/PjApTqF42Ds7U7PviEu8O/82p4\nRsjXQ95LotJSoPoG+wa0ezUpq3rDDeQ+EUEp55xwQshtg05UcpnUl65o0Zevo1TM\nZb7qfFLwY2Tc4ZG1dixQytMED2xdKbHHGq2FxDUWBtRpgNSLw9lamoOZAoGBAMES\nkEIOXYURok6O8Ja8xEH7e0ZlDQlMiTOle6mSDq/O4ff1q5YToerYfCNawg+z+HGp\npRwvqBSZJHc48D+C/qT7okpb9XfbYb93SRZ2eDuaQX9w/6SWRqO1Vj9e7hDn5lDe\nf6/1wqtP2w0pg89uqo40LmzXo8CKuvGg5D0j7afzAoGBAJCPYy3RbE7potQ46nP1\n/rjJeahQL2hZ7vjRw8dmiUacEWzCfbnD71D3/ATy8u6ppqZPq1BGli2tfYGj4nwV\nXI6aq0sC/3qGxdtNIs8tC9cySXRgf1BvonjhEp4qiaZrYIhmEe8pQL0qReEPswce\n4oazhv4CVjT/JtEMUiZCiJpZAoGBALWA6BDRRGWWgEjt44sxhiapbehtkuXNB6Z/\nyVNONXRdPt1GHLqHVk5amcj6xzjP7Z2c59UpkA9dMITMCD8MvKsIzDavYIH+wVOn\nphPx53HQwAY4inuFsn6wOJZ2fcNy3nfj05HtrcYy2jDzeDCHTttEfuhfiFe3k6sX\nn7lCj2a1AoGAFdJjjJOA0fvAqnqaxmEejejSm1tkqkeN7wgiASk1oVQWDGRU7wtV\nc94RY8D6s3hvPps0sE7cEP7SPOViQA4v0cBFj2NJx2vpHgXbRTKlbPMFdxxgaCA8\nGiH6Uo1NeK0xZeh9YCemqC80mEXv2M0gS4DeOebBfxxSUIucj5IfpVo=\n-----END RSA PRIVATE KEY-----\n",
+                "chef_configure_connection_runlist": "recipe[cosmo-mezzanine-demo::configure_web_mezzanine_app]",
+                "chef_validator_name": "chef-validator",
+                "chef_version": "11.4.4-2",
+                "cloudify_runtime": {}
+            },
+            "policies": [
+                {
+                    "rules": [
+                        {
+                            "type": "state_equals",
+                            "properties": {
+                                "state": "running",
+                                "service": "mezzanine app status"
+                            }
+                        }
+                    ],
+                    "name": "start_detection_policy"
+                }
+            ],
+            "general": null
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 3,
+            "type": "cloudify.relationships.contained_in"
+        },
+        {
+            "source": 3,
+            "target": 2,
+            "type": "cloudify.relationships.contained_in"
+        },
+        {
+            "source": 4,
+            "target": 6,
+            "type": "cloudify.relationships.contained_in"
+        },
+        {
+            "source": 4,
+            "target": 5,
+            "type": "cloudify.relationships.depends_on"
+        },
+        {
+            "source": 4,
+            "target": 1,
+            "type": "cloudify.relationships.connected_to"
+        },
+        {
+            "source": 5,
+            "target": 6,
+            "type": "cloudify.relationships.connected_to"
+        },
+        {
+            "source": 5,
+            "target": 7,
+            "type": "cloudify.relationships.contained_in"
+        },
+        {
+            "source": 6,
+            "target": 7,
+            "type": "cloudify.relationships.contained_in"
+        }
+    ]
+}
