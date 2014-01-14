@@ -20,6 +20,10 @@ angular.module('myFirstProjectApp', [
             templateUrl: 'views/blueprint.html',
             controller:'BluePrintCtrl'
         })
+        .when('/install', {
+            templateUrl: 'views/install.html',
+            controller:'InstallprogressCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });

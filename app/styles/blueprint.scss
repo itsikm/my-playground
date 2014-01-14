@@ -38,7 +38,7 @@
         margin: 0 60px 20px 0;
         .box {
             border-color: #3aaeda;
-            margin-bottom: 0px;
+            margin: 15px;
             .head {
                 background-color: #3aaeda;
             }
@@ -51,7 +51,7 @@
                 border-width: 2px;
                 border-style: solid;
                 border-color: white;
-                top: 0px;
+                top: 3px;
                 left: -21px;
             }
         }
@@ -61,7 +61,7 @@
             border-width: 2px;
             border-style: solid;
             border-color: white;
-            top: 1px;
+            top: 3px;
             left: -22px;
         }
         .head {
@@ -75,12 +75,9 @@
         .holder {
             display: block;
             background-color: white;
-            padding: 20px;
+            padding: 10px;
             min-height: 110px;
         }
-    }
-    .box:last-child {
-        margin: 0px;
     }
     .app {
         position: relative;

@@ -40,7 +40,7 @@ angular.module("myFirstProjectApp")
         },
         link: function($scope, $element, $attr)
         {
-            var canvas = d3.select($element[0]).append("svg")
+            var canvas = d3.select($element[0]).append("svg:svg")
                 .attr("width", "100%")
                 .attr("height", "100%")
                 .attr("fill", "silver");
@@ -64,7 +64,7 @@ angular.module("myFirstProjectApp")
             }
 
             canvas.append("svg:defs").selectAll("marker")
-                .data([""])
+                .data(["Arrow"])
                 .enter()
                     .append("svg:marker")
                     .attr("id", "arrowhead")
@@ -78,36 +78,21 @@ angular.module("myFirstProjectApp")
                     .append("svg:path")
                     .attr("d", "M0,-5L10,0L0,5");
 
-            var arrows = group.selectAll("g.arrow")
-                .data([])
-                .enter()
-                    .append("g")
-                    .attr("class", "arrow");
-
-            var path = arrows.append("path")
-                .attr("d", applyDiagonals);
 
             $scope.$watch("coordinates", function(data){
                 if(data) {
-                    console.log(data);
-
-                    path.data(data)
-                        .attr("d", applyDiagonals);
-
-                    var updateArrows = group.selectAll("g.arrow")
-                        .data(data);
-
-                    updateArrows.enter()
-                        .append("path")
-                        .attr("marker-end", "url(#arrowhead)")
-                        .attr("d", applyDiagonals)
-                        .attr("fill", "none")
-                        .attr("stroke", "orange")
-                        .attr("stroke-width", "3px")
-                        .attr("shape-rendering", "auto");
-
-                    updateArrows.exit()
+                    group.selectAll("path")
                         .remove();
+
+                    group.selectAll("path")
+                        .data(data)
+                        .enter()
+                            .append("path")
+                            .attr("d", applyDiagonals)
+                            .attr("marker-end", "url(#arrowhead)")
+                            .attr("fill", "none")
+                            .attr("stroke", "orange")
+                            .attr("stroke-width", "3px");
                 }
             }, true);
         }
@@ -211,35 +196,78 @@ angular.module("myFirstProjectApp")
             angular.forEach(map, function(to, from){
                 if(data[from] != undefined && data[to] != undefined) {
 
-                    setAttachPoint(from, to);
-
-                    Coords.push([data[from], data[to]]);
+                    Coords.push(getNearestPoints(from, to));
                 }
             });
             angular.extend(coordinates, Coords);
         }
 
-        function setAttachPoint(from, to)
+        /**************
+         * TODO: Rewrite this part or use utill to calculate from
+         * which point in the element to draw the arrow
+         * @param from = id of element
+         * @param to = id of element
+         */
+        function getNearestPoints(from, to)
         {
-//            console.log(data[from].x + " -> " + data[to].x);
-//            console.log(data[from].y + " -> " + data[to].y);
-//            console.log(elements[from].width());
+            var fromPoint = getAttachPointes(from),
+                toPoint   = getAttachPointes(to),
+                collector;
 
-            console.log(data[from]);
+            var current,
+                nearest = false;
 
-            if(data[from].y == data[to].y) {
-                data[from].x = data[from].x + elements[from].outerWidth();
-                data[from].y = data[from].y + (elements[from].outerHeight() / 2);
-                data[to].y = data[to].y + (elements[to].outerHeight() / 2);
-            }
+            angular.forEach(fromPoint, function(f, fi){
+                angular.forEach(toPoint, function(t, ti){
+                    current = Math.max(Math.abs(f.x - t.x), Math.abs(f.y - t.y)); // Calculate distance between points
+                    if(!nearest || current < nearest) {
+                        nearest   = current;  // update the lower value of distance between points
+                        collector = [fi, ti]; // Set the index of the nearest point until now
+                    }
+                });
+            });
 
-            else if((data[from].x + data[from].y) < (data[to].x + data[to].y)) {
-                data[from].x = data[from].x + (elements[from].outerWidth() / 2);
-                data[from].y = data[from].y + elements[from].outerHeight();
-                data[to].x = data[to].x + (elements[to].outerWidth() / 2)
-            }
+            return [fromPoint[collector[0]], toPoint[collector[1]]];
+        }
 
-            console.log(data[from]);
+        /****************
+         * Calculate 4 possible points to attach
+         * @param id = id of element
+         * @returns {Array}
+         */
+        function getAttachPointes( id )
+        {
+            var callback = [];
+            var width  = elements[id].outerWidth(),
+                height = elements[id].outerHeight(),
+                x = data[id].x,
+                y = data[id].y;
+
+            // [0] Top Middle Point
+            callback.push({
+                x: x + (width / 2),
+                y: y
+            });
+
+            // [1] Left Middle Point
+            callback.push({
+                x: x,
+                y: y + (height / 2)
+            });
+
+            // [2] Bottom Middle Point
+            callback.push({
+                x: x + (width / 2),
+                y: y + height
+            });
+
+            // [3] Right Middle Point
+            callback.push({
+                x: x + width,
+                y: y + (height / 2)
+            });
+
+            return callback;
         }
 
         /**************

@@ -65,7 +65,6 @@ angular.module('myFirstProjectApp')
                   .attr("d", arc)
                   .attr("fill", function(d){ return color(d.value); });
 
-
           }, true);
 
       }
