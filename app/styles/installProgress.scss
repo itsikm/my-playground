@@ -1,17 +1,15 @@
 .installProgress {
     position: relative;
     display: inline-block;
-    top: 50px; /* TODO: REMOVE THIS LINE */
-    .percents {
+    .circle {
         position: absolute;
         display: box;
         box-pack: center;
         box-align: center;
-        background-color: #3aaeda;
+        background-color: #46b8da;
         color: white;
         font-weight: bold;
         font-size: 100%;
-        box-shadow: inset 0 10px 10px 10px #29aaee, 0 0 10px #999;
         cursor: pointer;
         p {
             margin: 0px;
@@ -20,10 +18,21 @@
             content: "%";
         }
     }
-
     .shadow {
         position: absolute;
         top: 0;
         left: 0;
+    }
+    path.progress {
+        fill: #cce80b;
+    }
+    path.succeed {
+        fill: #cce80b;
+    }
+    path.error {
+        fill: #d54931;
+    }
+    path.warning {
+        fill: #feb300;
     }
 }
