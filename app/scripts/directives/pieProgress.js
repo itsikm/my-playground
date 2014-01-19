@@ -20,6 +20,7 @@ angular.module("myFirstProjectApp")
                 // Collection of colors
                 var color = d3.scale.category20();
 
+                // listener
                 $scope.$watch("data", function (data, previous) {
                     data = d3.entries(data);
                     previous = d3.entries(previous);
@@ -27,7 +28,7 @@ angular.module("myFirstProjectApp")
                     render(data);
                 }, true);
 
-
+                // define angles of arcs
                 function layout(data, previous) {
                     var startAngle = 0;
                     for (var i = 0; i < data.length; i++) {
@@ -39,7 +40,6 @@ angular.module("myFirstProjectApp")
                         else arc.previous = startAngle;
                         arc.startAngle = startAngle;
                         arc.endAngle = startAngle = startAngle + convertToRadian(arc.value);
-
                     }
                 }
 
@@ -65,6 +65,7 @@ angular.module("myFirstProjectApp")
                     // remove old data
                     configArc(g.exit()).remove();
 
+                    // arc configuration
                     function configArc( group ) {
                         return group.attr("fill", function (d, i) { return color(i); })
                             .attr("class", function(d){ return d.key; })
@@ -75,6 +76,7 @@ angular.module("myFirstProjectApp")
                     }
                 }
 
+                // interpolate transition
                 function arcTween(d) {
                     var interpolate = d3.interpolate(d.previous, d.endAngle);
                     return function (t) {
@@ -82,7 +84,6 @@ angular.module("myFirstProjectApp")
                         return arc(d);
                     };
                 }
-
 
                 // Create SVG layer
                 var vis = d3.select($element[0]).append("svg")
@@ -96,12 +97,14 @@ angular.module("myFirstProjectApp")
                     .innerRadius(innerSize / 2)
                     .outerRadius(width / 2);
 
+                // Fit shadow
                 $element.find(".shadow")
                     .css("width", width)
                     .css("height", height)
                     .css("border-radius", width / 2)
-                    .css("box-shadow", "inset 0px 0px " + ((width - innerSize) / ratio) + "px #ccc");
+                    .css("box-shadow", "inset 0px 0px " + ((width - innerSize) / ratio) + "px rgba(241, 241, 241, 0.5)");
 
+                // Fit circle inside
                 $element.find(".circle")
                     .addClass("circle")
                     .css("width", innerSize)

@@ -24,6 +24,10 @@ angular.module('myFirstProjectApp', [
             templateUrl: 'views/install.html',
             controller:'InstallprogressCtrl'
         })
+        .when('/networks', {
+            templateUrl: 'views/networks.html',
+            controller:'NetworksCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });
