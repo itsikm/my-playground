@@ -289,16 +289,4 @@ angular.module("myFirstProjectApp")
             elements[id] = element;
         }
 
-        /***************
-         * Calculate the center Coordinate of DOM element
-         * @param data
-         * @returns JSON Array of coordinates
-         */
-        this.getCenter = function( data )
-        {
-            data.x = data.x + data.e.width() / 2;
-            data.y = data.y + data.e.height() / 2;
-            return data;
-        }
-
 });
