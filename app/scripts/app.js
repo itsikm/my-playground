@@ -28,6 +28,10 @@ angular.module('myFirstProjectApp', [
             templateUrl: 'views/networks.html',
             controller:'NetworksCtrl'
         })
+        .when('/codehighlight', {
+            templateUrl: 'views/codeHighlight.html',
+            controller:'CodehightlightCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });
