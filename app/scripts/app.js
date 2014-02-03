@@ -4,7 +4,8 @@ angular.module('myFirstProjectApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ngRoute'
+  'ngRoute',
+  'ui.ace'
 ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -31,6 +32,10 @@ angular.module('myFirstProjectApp', [
         .when('/codehighlight', {
             templateUrl: 'views/codeHighlight.html',
             controller:'CodehightlightCtrl'
+        })
+        .when('/aceeditor', {
+            templateUrl: 'views/aceEditor.html',
+            controller:'AceeditorCtrl'
         })
         .otherwise({
             redirectTo: '/'
