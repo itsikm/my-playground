@@ -1,0 +1,11 @@
+<p>This is the aceEditor view.</p>
+
+<div ui-ace="{
+  useWrapMode : true,
+  showGutter: true,
+  theme:'tomorrow',
+  mode: 'yaml',
+  fontsize: '14px',
+  onLoad: aceLoaded,
+  onChange: aceChanged
+}" style="width: 800px; height: 800px;" ng-model="code"></div>
