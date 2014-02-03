@@ -1,0 +1,55 @@
+nodes:
+    -
+        id: 1
+        name: http_web_server
+        type:
+            - web_server
+        properties:
+            port: 8080
+            cloudify_runtime: {  }
+        policies:
+            -
+                rules:
+                    -
+                        type: state_equals
+                        properties:
+                            state: running
+                            service: 'webserver status'
+                name: start_detection_policy
+        general:
+            numOfInstances: 1
+    -
+        id: 2
+        name: vm
+        type:
+            - openstack_host
+        properties:
+            nova_config:
+                instance:
+                    key_name: cloudify_agents_idan
+                    image: 67074
+                    name: web_server_vm_idan
+                    flavor: 101
+                region: az-2.region-a.geo-1
+            install_agent: true
+            cloudify_runtime: {  }
+            worker_config:
+                user: ubuntu
+                key: ~/.ssh/cloudify-agents.pem
+                port: 22
+        policies:
+            -
+                rules:
+                    -
+                        type: state_equals
+                        properties:
+                            state: running
+                            service: 'openstack machine status'
+                name: start_detection_policy
+        general:
+            numOfInstances: 1
+edges:
+    -
+        source: 1
+        target: 2
+        type: cloudify.relationships.contained_in
