@@ -164,6 +164,11 @@ angular.module('myFirstProjectApp')
                     }
                 }
 
+                /**
+                 * Checked the checkbox on multiple selection
+                 * @param option
+                 * @returns {boolean}
+                 */
                 $scope.optionChecked = function(option) {
                     if($scope.multiple === true) {
                         return $scope.selected.indexOf(option) > -1 ? true : false;
