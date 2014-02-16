@@ -158,6 +158,9 @@ angular.module('myFirstProjectApp')
                     }
                     else {
                         if($scope.multiple === true) {
+                            if($attrs.hasOwnProperty('selection')) {
+                                return $attrs.selection.replace('$count', $scope.selected.length);
+                            }
                             return $scope.selected.length + ' Selections';
                         }
                         return $scope.selected.label;

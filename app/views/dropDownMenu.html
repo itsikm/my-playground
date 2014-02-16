@@ -2,7 +2,7 @@
 
 
 <div drop:down:Menu data-options="options" data-ng-model="workflow" data-text="Select Workflow"></div>
-<div drop:down:Menu multiple="true" data-options="cars" data-ng-model="selectedCar" data-text="Select Cars"></div>
+<div drop:down:Menu multiple="true" data-options="cars" data-ng-model="selectedCar" data-text="Select Cars" data-selection="$count Cars"></div>
 <br>
 <br><b>Workflow:</b> {{ workflow.label || 'none' }}
 <br><b>Selectd Car:</b> <span data-ng-repeat="car in selectedCar">{{ car.label }}{{$last ? '' : ', '}}</span>
