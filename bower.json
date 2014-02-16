@@ -2,7 +2,7 @@
   "name": "my-first-project",
   "version": "0.0.0",
   "dependencies": {
-    "angular": "1.2.6",
+    "angular": "~1.2.12",
     "json3": "~3.2.6",
     "es5-shim": "~2.1.0",
     "jquery": "~1.10.2",
@@ -12,7 +12,8 @@
     "angular-sanitize": "1.2.6",
     "angular-route": "1.2.6",
     "d3": "~3.3.13",
-    "angular-ui-ace": "~0.1.0"
+    "angular-ui-ace": "~0.1.0",
+    "ace-builds": "~1.1.1"
   },
   "devDependencies": {
     "angular-mocks": "1.2.6",

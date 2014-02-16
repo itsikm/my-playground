@@ -37,6 +37,10 @@ angular.module('myFirstProjectApp', [
             templateUrl: 'views/aceEditor.html',
             controller:'AceeditorCtrl'
         })
+        .when('/dropdownmenu', {
+            templateUrl: 'views/dropDownMenu.html',
+            controller:'DropdownmenuCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });
