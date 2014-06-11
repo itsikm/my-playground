@@ -13,10 +13,12 @@
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/nvd3/src/nv.d3.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="bower_components/nvd3/nv.d3.css"/>
     <!-- endbuild -->
   </head>
   <body ng-app="myFirstProjectApp">
@@ -54,6 +56,9 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/d3/d3.js"></script>
     <script src="bower_components/angular-ui-ace/ui-ace.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/nvd3/nv.d3.js"></script>
+    <script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -75,6 +80,8 @@
     <script src="scripts/controllers/dropDownMenu.js"></script>
     <script src="scripts/directives/dropDownMenu.js"></script>
     <script src="scripts/filters/as.js"></script>
+    <script src="scripts/controllers/charts.js"></script>
+    <script src="scripts/controllers/bigtable.js"></script>
     <!-- endbuild -->
 
 </body>

@@ -5,7 +5,9 @@ angular.module('myFirstProjectApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ui.ace'
+  'ui.ace',
+  'ngAnimate',
+  'nvd3ChartDirectives'
 ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -40,6 +42,14 @@ angular.module('myFirstProjectApp', [
         .when('/dropdownmenu', {
             templateUrl: 'views/dropDownMenu.html',
             controller:'DropdownmenuCtrl'
+        })
+        .when('/charts', {
+            templateUrl: 'views/charts.html',
+            controller:'ChartsCtrl'
+        })
+        .when('/bigtable', {
+            templateUrl: 'views/bigtable.html',
+            controller:'BigtableCtrl'
         })
         .otherwise({
             redirectTo: '/'
